@@ -1,0 +1,91 @@
+<%- include('header') %>
+
+<div class="container">
+    <h1 class="section-title">Checkout</h1>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start;">
+        <div class="checkout-form">
+            <h2 style="margin-bottom: 1.5rem;">Customer Information</h2>
+            <form action="/orders/place" method="POST" onsubmit="return validateCheckoutForm(event)">
+                <div class="form-group">
+                    <label for="customer_name">Full Name *</label>
+                    <input type="text" id="customer_name" name="customer_name" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="customer_email">Email Address *</label>
+                    <input type="email" id="customer_email" name="customer_email" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="customer_phone">Phone Number *</label>
+                    <input type="tel" id="customer_phone" name="customer_phone" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="customer_address">Delivery Address *</label>
+                    <textarea id="customer_address" name="customer_address" class="form-control" rows="3" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Payment Method *</label>
+                    <div class="payment-methods">
+                        <div class="payment-option">
+                            <input type="radio" id="credit_card" name="payment_method" value="Credit Card" required>
+                            <label for="credit_card" class="payment-label">
+                                💳 Credit Card
+                            </label>
+                        </div>
+                        <div class="payment-option">
+                            <input type="radio" id="debit_card" name="payment_method" value="Debit Card">
+                            <label for="debit_card" class="payment-label">
+                                💳 Debit Card
+                            </label>
+                        </div>
+                        <div class="payment-option">
+                            <input type="radio" id="paypal" name="payment_method" value="PayPal">
+                            <label for="paypal" class="payment-label">
+                                🅿️ PayPal
+                            </label>
+                        </div>
+                        <div class="payment-option">
+                            <input type="radio" id="cash" name="payment_method" value="Cash on Delivery">
+                            <label for="cash" class="payment-label">
+                                💵 Cash
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem;">
+                    Place Order
+                </button>
+            </form>
+        </div>
+
+        <div class="cart-summary">
+            <h2 style="margin-bottom: 1.5rem;">Order Summary</h2>
+            <% cartItems.forEach(item => { %>
+                <div class="summary-row">
+                    <span><%= item.name %> × <%= item.quantity %></span>
+                    <span>$<%= (item.price * item.quantity).toFixed(2) %></span>
+                </div>
+            <% }); %>
+            <div style="border-top: 1px solid #d4af37; margin: 1rem 0;"></div>
+            <div class="summary-row">
+                <span>Subtotal:</span>
+                <span>$<%= total.toFixed(2) %></span>
+            </div>
+            <div class="summary-row">
+                <span>Tax:</span>
+                <span>$<%= (total * 0.08).toFixed(2) %></span>
+            </div>
+            <div class="summary-row summary-total">
+                <span>Total:</span>
+                <span>$<%= (total * 1.08).toFixed(2) %></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('footer') %>

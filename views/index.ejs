@@ -1,0 +1,40 @@
+<%- include('header') %>
+<% 
+var bannerUrl = useS3 ? s3Url + '/images/banner.png' : '/images/banner.png';
+%>
+<section class="hero" style="background-image: linear-gradient(rgba(44,44,44,0.6), rgba(44,44,44,0.6)), url('<%= bannerUrl %>'); background-size: cover; background-position: center; padding: 6rem 0;">
+    <div class="hero-content">
+        <h1 style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Welcome to Elegant Cakes</h1>
+        <p style="color: white; font-size:1.2rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); margin-bottom: 2.5rem; max-width: 650px; margin-left: auto; margin-right: auto;">
+            Indulge in our handcrafted collection of signature cakes and pastries. Using the finest ingredients, we create memorable cakes for every special occasion. Try something extraordinary today.
+        </p>
+        <a href="/cakes" class="btn btn-primary" style="box-shadow: 0 4px 8px rgba(0,0,0,0.3);">View All Cakes</a>
+    </div>
+</section>
+
+<div class="container" id="products">
+    <h2 class="section-title">Signature Cakes</h2>
+    <p class="section-subtitle">Our most loved picks – fresh, artisan, and unforgettable</p>
+    <div class="product-grid">
+    <% products.forEach(function(product) { %>
+        <div class="product-card" onclick="window.location.href='/product/<%= product.id %>'">
+            <img src="<%= product.image_url %>" alt="<%= product.name %>" class="product-image">
+            <div class="product-info">
+                <div class="product-category"><%= product.category %></div>
+                <h3 class="product-name"><%= product.name %></h3>
+                <p class="product-description"><%= product.description %></p>
+                <div class="product-footer">
+                    <span class="product-price">$<%= product.price.toFixed(2) %></span>
+                    <button class="btn btn-primary" onclick="event.stopPropagation(); addToCart('<%= product.id %>')">
+                        Add to Cart
+                    </button>
+                </div>
+            </div>
+        </div>
+    <% }); %>
+    </div>
+    <div style="text-align: center; margin: 3rem auto 1rem;">
+        <a href="/cakes" class="btn btn-secondary" style="padding: 1rem 2rem; font-size: 1.15rem;">Browse All Cakes</a>
+    </div>
+</div>
+<%- include('footer') %>

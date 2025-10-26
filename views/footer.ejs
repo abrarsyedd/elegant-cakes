@@ -1,0 +1,36 @@
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p>Elegant Cakes brings you the finest artisan cakes and pastries, handcrafted with premium ingredients and passion.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="/products">Our Products</a>
+                <a href="/about">About Us</a>
+                <a href="/contact">Contact</a>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p>📍 123 Bakery Street, Sweet City</p>
+                <p>📞 (555) 123-4567</p>
+                <p>📧 info@elegantcakes.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>Opening Hours</h3>
+                <p>Monday - Friday: 8am - 8pm</p>
+                <p>Saturday: 9am - 9pm</p>
+                <p>Sunday: 10am - 6pm</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Elegant Cake Shop. All rights reserved. | Handcrafted with ❤️</p>
+        </div>
+    </footer>
+    <% if (useS3) { %>
+        <script src="<%= s3Url %>/js/main.js"></script>
+    <% } else { %>
+        <script src="/js/main.js"></script>
+    <% } %>
+</body>
+</html>

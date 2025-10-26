@@ -1,0 +1,59 @@
+<%- include('header') %>
+<div class="container">
+  <h1 class="section-title">All Cakes</h1>
+  <p class="section-subtitle">The full range of our artisan cakes—perfect for every craving or celebration</p>
+
+  <!-- Category Buttons -->
+  <div style="margin-bottom: 2rem; display:flex; flex-wrap:wrap; gap:0.75rem; justify-content:center;">
+    <a href="/cakes" class="btn btn-outline <%= selected === 'All' ? 'active' : '' %>">All</a>
+    <% categories.forEach(function(category) { %>
+      <a href="/cakes?category=<%= encodeURIComponent(category) %>" class="btn btn-outline <%= selected === category ? 'active' : '' %>"><%= category %></a>
+    <% }); %>
+  </div>
+
+  <div class="product-grid">
+    <% if (products.length === 0) { %>
+      <p style="text-align:center;color:#888;font-size:1.3rem;margin-top:4rem;">No cakes in this category.</p>
+    <% } %>
+    <% products.forEach(function(product) { %>
+      <div class="product-card" onclick="window.location.href='/product/<%= product.id %>'">
+        <img src="<%= product.image_url %>" alt="<%= product.name %>" class="product-image" />
+        <div class="product-info">
+          <div class="product-category"><%= product.category %></div>
+          <h3 class="product-name"><%= product.name %></h3>
+          <p class="product-description"><%= product.description %></p>
+          <div class="product-footer">
+            <span class="product-price">$<%= product.price.toFixed(2) %></span>
+            <button class="btn btn-primary" onclick="event.stopPropagation(); addToCart('<%= product.id %>')">
+              Add to Cart
+            </button>
+          </div>
+        </div>
+      </div>
+    <% }); %>
+  </div>
+</div>
+<%- include('footer') %>
+
+<style>
+  .btn-outline.active, .btn-outline:active {
+    background: #d4af37;
+    color: #fff !important;
+    border-color: #d4af37;
+  }
+  .btn-outline {
+    border: 2px solid #d4af37;
+    color: #d4af37 !important;
+    background: #fff;
+    padding: 0.6rem 1.4rem;
+    font-weight: 600;
+    border-radius: 22px;
+    transition: all .18s;
+    text-decoration: none;
+    font-size:1rem;
+  }
+  .btn-outline:hover {
+    background: #f9eeca;
+    color: #ad8900 !important;
+  }
+</style>

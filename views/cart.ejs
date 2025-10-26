@@ -1,0 +1,88 @@
+<%- include('header') %>
+
+<div class="container cart-container">
+    <h1 class="section-title">Shopping Cart</h1>
+
+    <% if (cartItems.length === 0) { %>
+        <div class="empty-state" style="text-align: center; padding: 3rem; background: #f8f9fa; border-radius: 8px;">
+            <h2 style="color: #2c2c2c; margin-bottom: 1rem;">Your cart is empty</h2>
+            <p style="color: #666; margin-bottom: 2rem; font-size: 1.1rem;">Add some delicious cakes to get started!</p>
+            <a href="/cakes" class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1.1rem;">Browse Products</a>
+        </div>
+    <% } else { %>
+        <div class="cart-items" style="margin-bottom: 2rem;">
+            <% cartItems.forEach(function(item) { %>
+                <div class="cart-item" style="display: flex; gap: 1.5rem; padding: 1.5rem; background: white; border: 1px solid #eee; border-radius: 8px; margin-bottom: 1rem; align-items: flex-start;">
+                    <img src="<%= item.image_url %>" alt="<%= item.name %>" class="cart-item-image" style="width: 150px; height: 150px; object-fit: cover; border-radius: 8px;">
+                    
+                    <div class="cart-item-info" style="flex: 1;">
+                        <h3 style="margin: 0 0 0.5rem 0; color: #2c2c2c;"><%= item.name %></h3>
+                        <div class="cart-item-price" style="font-size: 1.2rem; color: #d4af37; font-weight: 600; margin-bottom: 1rem;">
+                            $<%= item.price.toFixed(2) %> each
+                        </div>
+                        <div class="quantity-controls" style="display: flex; align-items: center; gap: 0.5rem;">
+                            <button class="quantity-btn" data-action="decrease" data-id="<%= item.id %>" style="padding: 0.5rem 1rem; border: 1px solid #d4af37; background: white; color: #d4af37; border-radius: 4px; cursor: pointer; font-weight: 600;">−</button>
+                            <input type="number" class="quantity-input qty-<%= item.id %>" value="<%= item.quantity %>" readonly style="width: 60px; text-align: center; border: 1px solid #ddd; padding: 0.5rem; border-radius: 4px;">
+                            <button class="quantity-btn" data-action="increase" data-id="<%= item.id %>" style="padding: 0.5rem 1rem; border: 1px solid #d4af37; background: white; color: #d4af37; border-radius: 4px; cursor: pointer; font-weight: 600;">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="cart-item-actions" style="text-align: right;">
+                        <div style="font-size: 1.3rem; font-weight: bold; color: #d4af37; margin-bottom: 1rem;">
+                            $<%= (item.price * item.quantity).toFixed(2) %>
+                        </div>
+                        <button class="btn btn-outline" data-action="remove" data-id="<%= item.id %>" style="padding: 0.75rem 1.5rem; border: 1px solid #d4af37; color: #d4af37; background: white; border-radius: 4px; cursor: pointer; font-weight: 600;">Remove</button>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+
+        <div class="cart-summary" style="background: #f4e4c1; padding: 2rem; border-radius: 8px; max-width: 400px; margin-left: auto;">
+            <div class="summary-row" style="display: flex; justify-content: space-between; margin-bottom: 1rem; font-size: 1.1rem;">
+                <span>Subtotal:</span>
+                <span>$<%= total.toFixed(2) %></span>
+            </div>
+            <div class="summary-row" style="display: flex; justify-content: space-between; margin-bottom: 1rem; font-size: 1.1rem;">
+                <span>Tax (estimate):</span>
+                <span>$<%= (total * 0.08).toFixed(2) %></span>
+            </div>
+            <div class="summary-row summary-total" style="display: flex; justify-content: space-between; padding-top: 1rem; border-top: 2px solid #d4af37; font-size: 1.3rem; font-weight: 700; color: #2c2c2c;">
+                <span>Total:</span>
+                <span>$<%= (total * 1.08).toFixed(2) %></span>
+            </div>
+            <a href="/orders/checkout" class="btn btn-primary" style="width: 100%; margin-top: 1.5rem; display: block; text-align: center; padding: 1rem; background: #d4af37; color: #2c2c2c; text-decoration: none; border-radius: 4px; font-weight: 700; font-size: 1.1rem;">
+                Proceed to Checkout
+            </a>
+        </div>
+    <% } %>
+</div>
+
+<script>
+document.querySelectorAll('.quantity-btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const action = this.getAttribute('data-action');
+        const id = this.getAttribute('data-id');
+        const input = document.querySelector('.qty-' + id);
+        const currentQty = parseInt(input.value);
+        
+        if (action === 'increase') {
+            updateCartQuantity(id, currentQty + 1);
+        } else if (action === 'decrease') {
+            if (currentQty > 1) {
+                updateCartQuantity(id, currentQty - 1);
+            }
+        }
+    });
+});
+
+document.querySelectorAll('[data-action="remove"]').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const id = this.getAttribute('data-id');
+        removeFromCart(id);
+    });
+});
+</script>
+
+<%- include('footer') %>

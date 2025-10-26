@@ -1,0 +1,54 @@
+<%- include('header') %>
+<div class="container">
+    <h1 class="section-title">Order Management</h1>
+    <p class="section-subtitle">View and manage all customer orders</p>
+    
+    <% if (orders.length === 0) { %>
+        <div class="empty-state">
+            <h2>No orders yet</h2>
+            <p>Orders will appear here when customers make purchases</p>
+        </div>
+    <% } else { %>
+        <div style="background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background: #f4e4c1; border-bottom: 2px solid #d4af37;">
+                        <th style="padding: 1rem; text-align: left;">Order ID</th>
+                        <th style="padding: 1rem; text-align: left;">Customer</th>
+                        <th style="padding: 1rem; text-align: left;">Email</th>
+                        <th style="padding: 1rem; text-align: right;">Total</th>
+                        <th style="padding: 1rem; text-align: center;">Payment</th>
+                        <th style="padding: 1rem; text-align: center;">Status</th>
+                        <th style="padding: 1rem; text-align: center;">Date</th>
+                        <th style="padding: 1rem; text-align: center;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% orders.forEach(function(order) { %>
+                        <tr style="border-bottom: 1px solid #e0e0e0;">
+                            <td style="padding: 1rem; font-weight: 600;">#<%= order.id.toString().padStart(6, '0') %></td>
+                            <td style="padding: 1rem;"><%= order.customer_name %></td>
+                            <td style="padding: 1rem;"><%= order.customer_email %></td>
+                            <td style="padding: 1rem; text-align: right; font-weight: 600; color: #d4af37;">$<%= parseFloat(order.total_amount).toFixed(2) %></td>
+                            <td style="padding: 1rem; text-align: center;"><%= order.payment_method %></td>
+                            <td style="padding: 1rem; text-align: center;">
+                                <span style="padding: 0.25rem 0.75rem; border-radius: 12px; background: #f4e4c1; color: #2c2c2c; font-size: 0.85rem; font-weight: 600;">
+                                    <%= order.order_status %>
+                                </span>
+                            </td>
+                            <td style="padding: 1rem; text-align: center;"><%= new Date(order.created_at).toLocaleDateString() %></td>
+                            <td style="padding: 1rem; text-align: center;">
+                                <a href="/orders/admin/orders/<%= order.id %>" class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.9rem;">View</a>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+        
+        <div style="margin-top: 2rem; padding: 1rem; background: #f4e4c1; border-radius: 8px; text-align: center;">
+            <strong>Total Orders:</strong> <%= orders.length %>
+        </div>
+    <% } %>
+</div>
+<%- include('footer') %>

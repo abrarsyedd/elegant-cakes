@@ -1,0 +1,85 @@
+<%- include('header') %>
+
+<div class="container">
+    <div class="alert alert-success" style="max-width: 800px; margin: 0 auto 2rem;">
+        <h2 style="margin-bottom: 0.5rem;">✅ Order Confirmed!</h2>
+        <p>Thank you for your order. We've received your request and will process it shortly.</p>
+    </div>
+
+    <div style="max-width: 800px; margin: 0 auto; background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <h2 style="margin-bottom: 1.5rem;">Order Details</h2>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 2px solid #f4e4c1;">
+            <div>
+                <strong>Order Number:</strong><br>
+                #<%= order.id.toString().padStart(6, '0') %>
+            </div>
+            <div>
+                <strong>Order Date:</strong><br>
+                <%= new Date(order.created_at).toLocaleDateString() %>
+            </div>
+            <div>
+                <strong>Payment Method:</strong><br>
+                <%= order.payment_method %>
+            </div>
+            <div>
+                <strong>Order Status:</strong><br>
+                <span style="color: #d4af37; font-weight: bold;"><%= order.order_status %></span>
+            </div>
+        </div>
+
+        <h3 style="margin-bottom: 1rem;">Customer Information</h3>
+        <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin-bottom: 2rem;">
+            <p><strong>Name:</strong> <%= order.customer_name %></p>
+            <p><strong>Email:</strong> <%= order.customer_email %></p>
+            <p><strong>Phone:</strong> <%= order.customer_phone %></p>
+            <p><strong>Delivery Address:</strong><br><%= order.customer_address %></p>
+        </div>
+
+        <h3 style="margin-bottom: 1rem;">Order Items</h3>
+        <table style="width: 100%; margin-bottom: 2rem;">
+            <thead>
+                <tr style="background: #f4e4c1;">
+                    <th style="padding: 0.75rem; text-align: left;">Product</th>
+                    <th style="padding: 0.75rem; text-align: center;">Quantity</th>
+                    <th style="padding: 0.75rem; text-align: right;">Price</th>
+                    <th style="padding: 0.75rem; text-align: right;">Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% orderItems.forEach(item => { %>
+                    <tr style="border-bottom: 1px solid #e0e0e0;">
+                        <td style="padding: 0.75rem;"><%= item.product_name %></td>
+                        <td style="padding: 0.75rem; text-align: center;"><%= item.quantity %></td>
+                        <td style="padding: 0.75rem; text-align: right;">$<%= item.price.toFixed(2) %></td>
+                        <td style="padding: 0.75rem; text-align: right;">$<%= (item.price * item.quantity).toFixed(2) %></td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+
+        <div style="text-align: right; font-size: 1.2rem;">
+            <div style="margin-bottom: 0.5rem;">
+                <strong>Total Amount:</strong> 
+                <span style="color: #d4af37; font-size: 1.5rem; font-weight: bold;">
+                    $<%= order.total_amount.toFixed(2) %>
+                </span>
+            </div>
+        </div>
+
+        <div style="background: #f4e4c1; padding: 1.5rem; border-radius: 8px; margin-top: 2rem; text-align: center;">
+            <p style="margin-bottom: 1rem;">
+                <strong>📧 A confirmation email has been sent to <%= order.customer_email %></strong>
+            </p>
+            <p>
+                Your order will be prepared with care and delivered to your address within 2-3 business days.
+            </p>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="/products" class="btn btn-primary">Continue Shopping</a>
+        </div>
+    </div>
+</div>
+
+<%- include('footer') %>
