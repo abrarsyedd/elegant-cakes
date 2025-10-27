@@ -2,14 +2,17 @@ const express = require('express');
 const router = express.Router();
 const db = require('../config/database');
 
+// Helper function to transform image URLs to S3
 function transformImageUrl(imageUrl, useS3, s3Url) {
+    if (!imageUrl) return imageUrl;
+    
     if (useS3 && imageUrl.startsWith('/images/')) {
         return s3Url + imageUrl;
     }
     return imageUrl;
 }
 
-// View Cart Page
+// View Cart
 router.get('/', async (req, res) => {
     try {
         const sessionId = req.session.id;
@@ -39,7 +42,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Add to cart API
+// Add to Cart
 router.post('/add', async (req, res) => {
     try {
         const { product_id, quantity } = req.body;
@@ -66,17 +69,16 @@ router.post('/add', async (req, res) => {
             'SELECT SUM(quantity) as count FROM cart WHERE session_id = ?',
             [sessionId]
         );
-
         req.session.cartCount = cartItems[0].count || 0;
 
-        res.json({ success: true, cartCount: req.session.cartCount, message: 'Added to cart!' });
+        res.json({ success: true, cartCount: req.session.cartCount });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ success: false, message: 'Error adding to cart' });
+        res.status(500).json({ success: false });
     }
 });
 
-// Update Quantity API
+// Update Quantity
 router.post('/update', async (req, res) => {
     try {
         const { cart_id, quantity } = req.body;
@@ -104,7 +106,7 @@ router.post('/update', async (req, res) => {
     }
 });
 
-// Remove from Cart API
+// Remove from Cart
 router.post('/remove', async (req, res) => {
     try {
         const { cart_id } = req.body;
@@ -124,6 +126,5 @@ router.post('/remove', async (req, res) => {
         res.status(500).json({ success: false });
     }
 });
-
 
 module.exports = router;
