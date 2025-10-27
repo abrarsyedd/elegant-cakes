@@ -38,17 +38,14 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Routes
 const productRoutes = require('./routes/products');
+const cakesRoutes = require('./routes/cakes');  // ADD THIS LINE
 const cartRoutes = require('./routes/cart');
 const orderRoutes = require('./routes/orders');
 
 app.use('/', productRoutes);
+app.use('/cakes', cakesRoutes);  // ADD THIS LINE
 app.use('/cart', cartRoutes);
 app.use('/orders', orderRoutes);
-
-// Home page redirect
-app.get('/', async (req, res) => {
-    res.redirect('/products');
-});
 
 // Start server
 app.listen(PORT, () => {
