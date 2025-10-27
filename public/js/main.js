@@ -10,6 +10,7 @@ async function addToCart(productId, quantity = 1) {
 
         if (data.success) {
             showNotification('Product added to cart!', 'success');
+            // Update cart badge IMMEDIATELY without page reload
             updateCartBadge(data.cartCount);
         } else {
             showNotification('Error adding product to cart', 'error');
@@ -55,13 +56,29 @@ async function removeFromCart(cartId) {
     }
 }
 
+// Update cart badge in real-time
 function updateCartBadge(count) {
     const badge = document.querySelector('.cart-badge');
-    if (!badge) return;
+    
+    // Create badge if it doesn't exist
+    if (!badge) {
+        const cartLink = document.querySelector('.cart-icon a');
+        if (cartLink) {
+            const newBadge = document.createElement('span');
+            newBadge.className = 'cart-badge';
+            newBadge.textContent = count;
+            newBadge.style.display = 'inline-block';
+            cartLink.appendChild(newBadge);
+        }
+        return;
+    }
+    
+    // Update existing badge
     badge.textContent = count;
     badge.style.display = count > 0 ? 'inline-block' : 'none';
 }
 
+// Smooth slide-in notification
 function showNotification(message, type = 'success') {
     const existing = document.querySelector('.notification-toast');
     if (existing) existing.remove();
@@ -89,10 +106,14 @@ function showNotification(message, type = 'success') {
     notification.style.fontFamily = 'inherit';
 
     document.body.appendChild(notification);
+
+    // Slide in
     setTimeout(() => {
         notification.style.transform = 'translateX(0)';
         notification.style.opacity = '1';
     }, 10);
+
+    // Slide out after 2 seconds
     setTimeout(() => {
         notification.style.transform = 'translateX(400px)';
         notification.style.opacity = '0';
@@ -101,3 +122,14 @@ function showNotification(message, type = 'success') {
         }, 1500);
     }, 2010);
 }
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+});

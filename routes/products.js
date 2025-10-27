@@ -127,4 +127,30 @@ router.get('/product/:id', async (req, res) => {
     }
 });
 
+// About Page
+router.get('/about', (req, res) => {
+    try {
+        res.render('about', {
+            page: 'about',
+            cartCount: req.session.cartCount || 0
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error loading about page');
+    }
+});
+
+// Contact Page
+router.get('/contact', (req, res) => {
+    try {
+        res.render('contact', {
+            page: 'contact',
+            cartCount: req.session.cartCount || 0
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error loading contact page');
+    }
+});
+
 module.exports = router;
