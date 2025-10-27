@@ -4,7 +4,7 @@ A production-ready e-commerce web application for an artisan cake shop, fully de
 
 ## 🌟 Live Demo & Links
 
-- **GitHub Repository**: [github.com/abrarsyedd/elegant-cakeshop](https://github.com/abrarsyedd/elegant-cakeshop)
+- **GitHub Repository**: [github.com/abrarsyedd/elegant-cakes](https://github.com/abrarsyedd/elegant-cakes)
 - **Deployment Guide**: See DEPLOYMENT.md
 
 ## ✨ Key Features
