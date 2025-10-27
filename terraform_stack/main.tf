@@ -81,7 +81,7 @@ resource "aws_eip" "nat_eip" {
 # NAT Gateway in Public Subnet 1
 resource "aws_nat_gateway" "nat_gw" {
   allocation_id = aws_eip.nat_eip.id
-  subnet_id     = aws_subnet.private_1.id
+  subnet_id     = aws_subnet.public_1.id
 
   tags = {
     Name = "nat-gw"
@@ -183,7 +183,7 @@ data "aws_ami" "ubuntu" {
 # Tell Terraform to upload your public key to AWS and name it ec2-key
 resource "aws_key_pair" "my_key" {
   key_name = "ec2-key"
-  public_key = file(var.ssh_key)
+  public_key = file(pathexpand(var.ssh_key))
 }
 
 # 11. Ec2 instance
@@ -195,9 +195,10 @@ resource "aws_instance" "web" {
   key_name = aws_key_pair.my_key.key_name
 
   user_data = templatefile("${path.module}/user-data.sh", {
-    rds_endpoint = aws_db_instance.cakeshop_rds.address
-    s3_url       = "https://s3.amazonaws.com/${aws_s3_bucket.assets_bucket.bucket}" 
-  })
+    rds_endpoint  = aws_db_instance.cakeshop_rds.address
+    s3_bucket_url = "https://${aws_s3_bucket.assets_bucket.bucket}.s3.${var.aws_region}.amazonaws.com"
+    github_token  = var.github_token
+})
   tags = {
     Name = var.ec2_name
   }
@@ -242,9 +243,15 @@ resource "aws_lb" "alb" {
 # 14. Target Group
 resource "aws_lb_target_group" "tg" {
   name = var.tg_name
-  port = 80
+  port = 3000
   protocol = "HTTP"
   vpc_id = aws_vpc.terraform_vpc.id
+
+  health_check {
+    enabled = true
+    port    = "traffic-port" 
+    matcher = "200"
+  }
 }
 
 # 15. HTTPS Listener
@@ -281,5 +288,5 @@ resource "aws_lb_listener" "http_to_https" {
 resource "aws_lb_target_group_attachment" "attachment" {
   target_group_arn = aws_lb_target_group.tg.arn
   target_id = aws_instance.web.id
-  port = 80
+  port = 3000
 }

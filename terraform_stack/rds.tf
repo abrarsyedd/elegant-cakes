@@ -31,12 +31,13 @@ resource "aws_security_group" "db_sg" {
 
 resource "aws_db_instance" "cakeshop_rds" {
   identifier = "cakeshop-db"
+  db_name = "cakeshop_db"
   engine = "mysql"
   engine_version = "8.0"
   instance_class = "db.t3.micro"
   allocated_storage = "10"
   username = "admin"
-  password = "admin12345"
+  password = var.rds_pass
   skip_final_snapshot = true
   publicly_accessible = false
   db_subnet_group_name = aws_db_subnet_group.db_subnet_group.name 

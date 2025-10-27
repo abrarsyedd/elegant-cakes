@@ -26,10 +26,10 @@ resource "aws_s3_bucket" "assets_bucket" {
 resource "aws_s3_bucket_public_access_block" "assets_pab" {
   bucket = aws_s3_bucket.assets_bucket.id
 
-  block_public_acls       = true
-  block_public_policy     = false # Set to false to allow our bucket policy
-  ignore_public_acls      = true
-  restrict_public_buckets = true
+  block_public_acls       = false
+  block_public_policy     = false 
+  ignore_public_acls      = false
+  restrict_public_buckets = false
 }
 
 # 3. Apply the Bucket Policy you provided
@@ -77,19 +77,7 @@ resource "aws_s3_object" "asset_files" {
   key    = each.value                         # Use the relative file path as the S3 object key
   source = "${var.assets_folder}/${each.value}" # Full local path to the file
   etag   = filemd5("${var.assets_folder}/${each.value}") # Re-upload if file content changes
-
+ 
   # This is the corrected line to set the Content-Type
   content_type = lookup(local.mime_types, regex("\\.[^.]+$", each.value), "application/octet-stream")
-}
-
-# --- Outputs ---
-
-output "bucket_endpoint" {
-  description = "The regional domain name for the S3 bucket"
-  value       = aws_s3_bucket.assets_bucket.bucket_regional_domain_name
-}
-
-output "example_file_url" {
-  description = "Example URL for a file (assuming 'css/style.css' exists)"
-  value       = "https://${aws_s3_bucket.assets_bucket.bucket_regional_domain_name}/css/style.css"
 }

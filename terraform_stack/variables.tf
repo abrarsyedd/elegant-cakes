@@ -212,11 +212,15 @@ variable "db_subnet_name" {
 variable "bucket_name" {
   description = "The name for your S3 bucket"
   type        = string
-  default     = "elegant-cakeshop-public-assets"
+}
+
+variable "github_token" {
+  description = "A GitHub Personal Access Token (classic) with repo access."
+  type        = string
+  sensitive   = true
 }
 
 variable "assets_folder" {
   description = "The local folder containing your static assets (css, js, images)"
   type        = string
-  default     = "./public"
 }
