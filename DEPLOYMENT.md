@@ -23,8 +23,8 @@ Before you start, ensure you have:
 ### 1.1 Clone the Repository
 
 ```bash
-git clone https://github.com/abrarsyedd/elegant-cakeshop.git
-cd elegant-cakeshop
+git clone https://github.com/abrarsyedd/elegant-cakes.git
+cd elegant-cakes
 ```
 
 ### 1.2 Create .env.example
