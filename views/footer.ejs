@@ -6,7 +6,8 @@
             </div>
             <div class="footer-section">
                 <h3>Quick Links</h3>
-                <a href="/products">Our Products</a>
+                <a href="/">Home</a>
+                <a href="/cakes">Cakes</a>
                 <a href="/about">About Us</a>
                 <a href="/contact">Contact</a>
             </div>
@@ -27,7 +28,9 @@
             <p>&copy; 2025 Elegant Cake Shop. All rights reserved. | Handcrafted with ❤️</p>
         </div>
     </footer>
-    <% if (useS3) { %>
+    
+    <!-- JavaScript from S3 or Local -->
+    <% if (typeof useS3 !== 'undefined' && useS3) { %>
         <script src="<%= s3Url %>/js/main.js"></script>
     <% } else { %>
         <script src="/js/main.js"></script>

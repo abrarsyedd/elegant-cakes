@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Elegant Cake Shop - Artisan Cakes & Pastries</title>
-    <% if (useS3) { %>
-        <link rel="stylesheet" href="<%= s3Url %>/css/style.css" />
+    
+    <!-- CSS from S3 or Local -->
+    <% if (typeof useS3 !== 'undefined' && useS3) { %>
+        <link rel="stylesheet" href="<%= s3Url %>/css/style.css">
     <% } else { %>
-        <link rel="stylesheet" href="/css/style.css" />
+        <link rel="stylesheet" href="/css/style.css">
     <% } %>
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-container">
             <a href="/" class="logo">
-                <% if (useS3) { %>
-                    <img src="<%= s3Url %>/images/logo.png" alt="Cake Shop Logo" class="logo-img" />
+                <% if (typeof useS3 !== 'undefined' && useS3) { %>
+                    <img src="<%= s3Url %>/images/logo.png" alt="Cake Shop Logo" class="logo-img">
                 <% } else { %>
-                    <img src="/images/logo.png" alt="Cake Shop Logo" class="logo-img" />
+                    <img src="/images/logo.png" alt="Cake Shop Logo" class="logo-img">
                 <% } %>
                 <span class="logo-text">Elegant Cakes</span>
             </a>
@@ -27,15 +29,12 @@
                 <li><a href="/about" class="<%= page === 'about' ? 'active' : '' %>">About</a></li>
                 <li><a href="/contact" class="<%= page === 'contact' ? 'active' : '' %>">Contact</a></li>
                 <li class="cart-icon">
-                    <a href="/cart" class="cart-link">
+                    <a href="/cart" class="<%= page === 'cart' ? 'active' : '' %>">
                         🛒 Cart
-                         <% if (cartCount > 0) { %>
-                         <span class="cart-badge"><%= cartCount %></span>
-                         <% } else { %>
-                         <span class="cart-badge" style="display:none"></span>
-                         <% } %>
-                         </a>
-
+                        <% if (typeof cartCount !== 'undefined' && cartCount > 0) { %>
+                            <span class="cart-badge"><%= cartCount %></span>
+                        <% } %>
+                    </a>
                 </li>
             </ul>
         </div>

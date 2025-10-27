@@ -24,11 +24,18 @@ app.use(session({
     cookie: { maxAge: 24 * 60 * 60 * 1000 }
 }));
 
-// Make S3 config available to all views
+// CRITICAL: Make S3 config available to ALL views
 app.use((req, res, next) => {
-    res.locals.useS3 = process.env.USE_S3 === 'true';
-    res.locals.s3Url = process.env.S3_BUCKET_URL || '';
-    res.locals.assetUrl = process.env.USE_S3 === 'true' ? process.env.S3_BUCKET_URL : '';
+    const useS3 = process.env.USE_S3 === 'true';
+    const s3Url = process.env.S3_BUCKET_URL || '';
+    
+    res.locals.useS3 = useS3;
+    res.locals.s3Url = s3Url;
+    res.locals.cartCount = req.session.cartCount || 0;
+    
+    // Debug logging to verify S3 config
+    console.log(`[S3 CONFIG] USE_S3=${useS3}, S3_URL=${s3Url}`);
+    
     next();
 });
 
