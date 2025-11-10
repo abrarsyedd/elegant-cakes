@@ -2,10 +2,9 @@
 
 A production-ready e-commerce web application for an artisan cake shop, fully deployed on AWS using **Infrastructure-as-Code (Terraform)**.
 
-## 🌟 Live Demo & Links
+# 🚀 Architecture
 
-- **GitHub Repository**: [github.com/abrarsyedd/elegant-cakes](https://github.com/abrarsyedd/elegant-cakes)
-- **Deployment Guide**: See DEPLOYMENT.md
+![Architecture](./elegant-cakes-architecture..jpg)
 
 ## ✨ Key Features
 
