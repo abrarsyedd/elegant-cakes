@@ -1,7 +1,6 @@
 # Elegant Cakes - 3-Tier E-Commerce Platform on AWS
 
 Elegant-Cakes is a cloud-native e-commerce application for gourmet desserts, built on AWS for high availability and scalability.
-It uses AWS services—including S3, Lambda, RDS, and CloudFront—to deliver secure uploads, real-time image processing, and global content delivery.
 
 # 🚀 Architecture
 
