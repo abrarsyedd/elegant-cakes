@@ -4,7 +4,7 @@ A production-ready e-commerce web application for an artisan cake shop, fully de
 
 # 🚀 Architecture
 
-![Architecture](./elegant-cakes-architecture..jpg)
+![Architecture](./elegant-cakes-architecture.jpg)
 
 ## ✨ Key Features
 
