@@ -37,7 +37,7 @@ resource "aws_db_instance" "cakeshop_rds" {
   instance_class = "db.t3.micro"
   allocated_storage = "10"
   username = "admin"
-  password = var.rds_pass
+  password = var.rds_password
   skip_final_snapshot = true
   publicly_accessible = false
   db_subnet_group_name = aws_db_subnet_group.db_subnet_group.name 
